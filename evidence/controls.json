@@ -1,0 +1,162 @@
+[
+  {
+    "id": "correct",
+    "title": "Doğru düzeltme",
+    "started_at": "2026-10-22T11:59:08.653010+00:00",
+    "outcome": "pass",
+    "grade": "verified_basic",
+    "summary": "Verified: 1 file(s) changed, patch applied cleanly to e606343b, and tests passed.",
+    "runner": "deterministic_mock",
+    "runner_success": true,
+    "changed_files": [
+      "src/pricing.py"
+    ],
+    "diff": "diff --git a/src/pricing.py b/src/pricing.py\nindex f20abbf..742c0a3 100644\n--- a/src/pricing.py\n+++ b/src/pricing.py\n@@ -1,2 +1,4 @@\n def apply_discount(price_cents, percent):\r\n-    return price_cents * (100 + percent) // 100\r\n+    if price_cents < 0 or not 0 <= percent <= 100:\r\n+        raise ValueError(\"Invalid price or discount\")\r\n+    return price_cents * (100 - percent) // 100\r\n",
+    "test_exit_code": 0,
+    "tests_executed": true,
+    "test_output": "test_REQ_001_zero_discount_preserves_price (test_pricing.PricingRequirements.test_REQ_001_zero_discount_preserves_price) ... ok\r\ntest_REQ_002_discount_reduces_price (test_pricing.PricingRequirements.test_REQ_002_discount_reduces_price) ... ok\r\ntest_REQ_003_full_discount_and_zero_price (test_pricing.PricingRequirements.test_REQ_003_full_discount_and_zero_price) ... ok\r\ntest_REQ_004_fractional_cent_rounds_down (test_pricing.PricingRequirements.test_REQ_004_fractional_cent_rounds_down) ... ok\r\ntest_REQ_005_invalid_inputs_are_refused (test_pricing.PricingRequirements.test_REQ_005_invalid_inputs_are_refused) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 5 tests in 0.000s\r\n\r\nOK",
+    "receipt": {
+      "receipt_id": "rcpt-8ee2d3f73a",
+      "timestamp": "2026-10-22T11:59:09.442668+00:00",
+      "base_revision": "e606343b82f3794d1742909439a2c0947efc0f4a",
+      "patch_hash": "51fcbabf3e40795616ec613b8702c9de91f161ed6e46f7bd58b533df0ff9c7b7",
+      "verified_revision": "e606343b82f3+51fcbabf3e40",
+      "grade": "verified_basic",
+      "outcome": "pass",
+      "merge_eligible": true,
+      "changed_files": [
+        "src/pricing.py"
+      ],
+      "checks_executed": {
+        "secret_scan": {
+          "outcome": "pass",
+          "findings": []
+        },
+        "scope_validation": {
+          "outcome": "pass",
+          "errors": [],
+          "changed_files": [
+            "src/pricing.py"
+          ]
+        },
+        "clean_checkout_apply": {
+          "outcome": "pass",
+          "base_revision": "e606343b82f3794d1742909439a2c0947efc0f4a"
+        },
+        "native_tests": {
+          "outcome": "pass",
+          "command": "python -I -B -m unittest discover -s tests -v",
+          "exit_code": 0,
+          "error": ""
+        }
+      },
+      "summary": "Verified: 1 file(s) changed, patch applied cleanly to e606343b, and tests passed."
+    },
+    "worktree": "sample-repository/.dispatcher/worktrees/correct-85ab4c10"
+  },
+  {
+    "id": "broken",
+    "title": "Hatalı hesap",
+    "started_at": "2026-10-22T11:59:10.118549+00:00",
+    "outcome": "fail",
+    "grade": "verification_failed",
+    "summary": "Verification failed: tests failed with exit code 1.",
+    "runner": "deterministic_mock",
+    "runner_success": true,
+    "changed_files": [
+      "src/pricing.py"
+    ],
+    "diff": "diff --git a/src/pricing.py b/src/pricing.py\nindex f20abbf..9c1adcf 100644\n--- a/src/pricing.py\n+++ b/src/pricing.py\n@@ -1,2 +1,4 @@\n def apply_discount(price_cents, percent):\r\n+    if price_cents < 0 or not 0 <= percent <= 100:\r\n+        raise ValueError(\"Invalid price or discount\")\r\n     return price_cents * (100 + percent) // 100\r\n",
+    "test_exit_code": 1,
+    "tests_executed": true,
+    "test_output": "test_REQ_001_zero_discount_preserves_price (test_pricing.PricingRequirements.test_REQ_001_zero_discount_preserves_price) ... ok\r\ntest_REQ_002_discount_reduces_price (test_pricing.PricingRequirements.test_REQ_002_discount_reduces_price) ... FAIL\r\ntest_REQ_003_full_discount_and_zero_price (test_pricing.PricingRequirements.test_REQ_003_full_discount_and_zero_price) ... FAIL\r\ntest_REQ_004_fractional_cent_rounds_down (test_pricing.PricingRequirements.test_REQ_004_fractional_cent_rounds_down) ... FAIL\r\ntest_REQ_005_invalid_inputs_are_refused (test_pricing.PricingRequirements.test_REQ_005_invalid_inputs_are_refused) ... ok\r\n\r\n======================================================================\r\nFAIL: test_REQ_002_discount_reduces_price (test_pricing.PricingRequirements.test_REQ_002_discount_reduces_price)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"<user>\\AppData\\Local\\Temp\\dispatcher_plane_verify-4c981742\\tests\\test_pricing.py\", line 14, in test_REQ_002_discount_reduces_price\r\n    self.assertEqual(apply_discount(1000, 20), 800)\r\nAssertionError: 1200 != 800\r\n\r\n======================================================================\r\nFAIL: test_REQ_003_full_discount_and_zero_price (test_pricing.PricingRequirements.test_REQ_003_full_discount_and_zero_price)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"<user>\\AppData\\Local\\Temp\\dispatcher_plane_verify-4c981742\\tests\\test_pricing.py\", line 17, in test_REQ_003_full_discount_and_zero_price\r\n    self.assertEqual(apply_discount(1000, 100), 0)\r\nAssertionError: 2000 != 0\r\n\r\n======================================================================\r\nFAIL: test_REQ_004_fractional_cent_rounds_down (test_pricing.PricingRequirements.test_REQ_004_fractional_cent_rounds_down)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"<user>\\AppData\\Local\\Temp\\dispatcher_plane_verify-4c981742\\tests\\test_pricing.py\", line 21, in test_REQ_004_fractional_cent_rounds_down\r\n    self.assertEqual(apply_discount(199, 10), 179)\r\nAssertionError: 218 != 179\r\n\r\n----------------------------------------------------------------------\r\nRan 5 tests in 0.001s\r\n\r\nFAILED (failures=3)",
+    "receipt": {
+      "receipt_id": "rcpt-481c733ba7",
+      "timestamp": "2026-10-22T11:59:10.566506+00:00",
+      "base_revision": "e606343b82f3794d1742909439a2c0947efc0f4a",
+      "patch_hash": "ce1b8ebcaa4a59696672901cea5368e35edf0a9364e779aacc4402e389421f4f",
+      "verified_revision": "e606343b82f3+ce1b8ebcaa4a",
+      "grade": "verification_failed",
+      "outcome": "fail",
+      "merge_eligible": false,
+      "changed_files": [
+        "src/pricing.py"
+      ],
+      "checks_executed": {
+        "secret_scan": {
+          "outcome": "pass",
+          "findings": []
+        },
+        "scope_validation": {
+          "outcome": "pass",
+          "errors": [],
+          "changed_files": [
+            "src/pricing.py"
+          ]
+        },
+        "clean_checkout_apply": {
+          "outcome": "pass",
+          "base_revision": "e606343b82f3794d1742909439a2c0947efc0f4a"
+        },
+        "native_tests": {
+          "outcome": "fail",
+          "command": "python -I -B -m unittest discover -s tests -v",
+          "exit_code": 1,
+          "error": "Tests failed with exit code 1"
+        }
+      },
+      "summary": "Verification failed: tests failed with exit code 1."
+    },
+    "worktree": "sample-repository/.dispatcher/worktrees/broken-abfb1e93"
+  },
+  {
+    "id": "tampered",
+    "title": "Testleri değiştirerek geçme girişimi",
+    "started_at": "2026-10-22T11:59:11.206853+00:00",
+    "outcome": "fail",
+    "grade": "verification_failed",
+    "summary": "Verification failed: scope violation (File in excluded scope touched: tests/test_pricing.py (matched tests/**)).",
+    "runner": "deterministic_mock",
+    "runner_success": true,
+    "changed_files": [
+      "src/pricing.py",
+      "tests/test_pricing.py"
+    ],
+    "diff": "diff --git a/src/pricing.py b/src/pricing.py\nindex f20abbf..742c0a3 100644\n--- a/src/pricing.py\n+++ b/src/pricing.py\n@@ -1,2 +1,4 @@\n def apply_discount(price_cents, percent):\r\n-    return price_cents * (100 + percent) // 100\r\n+    if price_cents < 0 or not 0 <= percent <= 100:\r\n+        raise ValueError(\"Invalid price or discount\")\r\n+    return price_cents * (100 - percent) // 100\r\ndiff --git a/tests/test_pricing.py b/tests/test_pricing.py\nindex 90b1de2..f42fd00 100644\n--- a/tests/test_pricing.py\n+++ b/tests/test_pricing.py\n@@ -1,27 +1 @@\n-import sys\r\n-import unittest\r\n-from pathlib import Path\r\n-\r\n-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / \"src\"))\r\n-from pricing import apply_discount\r\n-\r\n-\r\n-class PricingRequirements(unittest.TestCase):\r\n-    def test_REQ_001_zero_discount_preserves_price(self):\r\n-        self.assertEqual(apply_discount(1000, 0), 1000)\r\n-\r\n-    def test_REQ_002_discount_reduces_price(self):\r\n-        self.assertEqual(apply_discount(1000, 20), 800)\r\n-\r\n-    def test_REQ_003_full_discount_and_zero_price(self):\r\n-        self.assertEqual(apply_discount(1000, 100), 0)\r\n-        self.assertEqual(apply_discount(0, 20), 0)\r\n-\r\n-    def test_REQ_004_fractional_cent_rounds_down(self):\r\n-        self.assertEqual(apply_discount(199, 10), 179)\r\n-\r\n-    def test_REQ_005_invalid_inputs_are_refused(self):\r\n-        for price, percent in [(-1, 20), (1000, -1), (1000, 101)]:\r\n-            with self.subTest(price=price, percent=percent):\r\n-                with self.assertRaises(ValueError):\r\n-                    apply_discount(price, percent)\r\n+# Tests removed by deterministic demo runner.\r\n",
+    "test_exit_code": null,
+    "tests_executed": false,
+    "test_output": "",
+    "receipt": {
+      "receipt_id": "rcpt-3238a92b66",
+      "timestamp": "2026-10-22T11:59:11.796533+00:00",
+      "base_revision": "e606343b82f3794d1742909439a2c0947efc0f4a",
+      "patch_hash": "10d4181fc501c285e1054a79bbfb39b60cd0049968ea10d90a6d927e78e910a0",
+      "verified_revision": "e606343b82f3794d1742909439a2c0947efc0f4a",
+      "grade": "verification_failed",
+      "outcome": "fail",
+      "merge_eligible": false,
+      "changed_files": [
+        "src/pricing.py",
+        "tests/test_pricing.py"
+      ],
+      "checks_executed": {
+        "secret_scan": {
+          "outcome": "pass",
+          "findings": []
+        },
+        "scope_validation": {
+          "outcome": "fail",
+          "errors": [
+            "File in excluded scope touched: tests/test_pricing.py (matched tests/**)"
+          ],
+          "changed_files": [
+            "src/pricing.py",
+            "tests/test_pricing.py"
+          ]
+        }
+      },
+      "summary": "Verification failed: scope violation (File in excluded scope touched: tests/test_pricing.py (matched tests/**))."
+    },
+    "worktree": "sample-repository/.dispatcher/worktrees/tampered-47bb6826"
+  }
+]

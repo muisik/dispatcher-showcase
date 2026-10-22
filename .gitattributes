@@ -1,0 +1,5 @@
+# Preserve captured evidence bytes and hashes across Windows/Linux checkout.
+evidence/* -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+*.jpg binary
+*.gif binary
+*.md text eol=lf

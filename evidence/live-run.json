@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "mode": "live_api_sample",
+  "provider": "openai_compatible",
+  "model": "deepseek-v4-flash",
+  "started_at": "2026-10-22T11:59:12.513594+00:00",
+  "finished_at": "2026-10-22T11:59:19.562083+00:00",
+  "contract": {
+    "goal": "Fix apply_discount in src/pricing.py so discounts subtract from price, zero and 100 percent work, fractional cents round down, and negative prices or percentages outside 0..100 raise ValueError. First inspect src/pricing.py and tests/test_pricing.py using read_file. Change ONLY src/pricing.py with write_file; never modify tests or .git. Run acceptance tests with this exact local command: python -I -B -m unittest discover -s tests -v. Do not install dependencies, use network, read environment variables, or access files outside this sample. Conclude with a short explanation of the change and actual test result.",
+    "scope": [
+      "src/pricing.py"
+    ],
+    "excluded": [
+      "tests/**"
+    ],
+    "implementation_ready": true,
+    "risk_tier": "low"
+  },
+  "base_revision": "e606343b82f3794d1742909439a2c0947efc0f4a",
+  "runner_success": true,
+  "runner_output": "I'll start by inspecting the relevant files.\n\nAll 5 acceptance tests pass.\n\n## Summary\n\n**Change made (only `src/pricing.py`):**\n\nThe original implementation added the percentage instead of subtracting it (`100 + percent`), and had no input validation. The fixed version:\n\n```python\ndef apply_discount(price_cents, percent):\n    if price_cents < 0:\n        raise ValueError(\"price_cents must be non-negative\")\n    if percent < 0 or percent > 100:\n        raise ValueError(\"percent must be between 0 and 100\")\n    return price_cents * (100 - percent) // 100\n```\n\n- **Discounts subtract:** `(100 - percent)` replaces `(100 + percent)`, so 20% off 1000 → 800.\n- **Zero and 100 percent:** 0% preserves the price; 100% yields 0; a zero price stays 0.\n- **Fractional cents round down:** integer floor division `// 100` truncates, so 199 at 10% → 179.\n- **Validation:** negative prices and percentages outside 0..100 raise `ValueError`.\n\nNo tests, `.git`, or other files were touched; no dependencies installed and no network/env access used.\n\n**Test result:** `Ran 5 tests in 0.000s — OK` (exit code 0), all REQ_001–REQ_005 passing.",
+  "outcome": "pass",
+  "grade": "verified_basic",
+  "summary": "Verified: 1 file(s) changed, patch applied cleanly to e606343b, and tests passed.",
+  "changed_files": [
+    "src/pricing.py"
+  ],
+  "diff": "diff --git a/src/pricing.py b/src/pricing.py\nindex f20abbf..09b05fd 100644\n--- a/src/pricing.py\n+++ b/src/pricing.py\n@@ -1,2 +1,6 @@\n def apply_discount(price_cents, percent):\r\n-    return price_cents * (100 + percent) // 100\r\n+    if price_cents < 0:\r\n+        raise ValueError(\"price_cents must be non-negative\")\r\n+    if percent < 0 or percent > 100:\r\n+        raise ValueError(\"percent must be between 0 and 100\")\r\n+    return price_cents * (100 - percent) // 100\r\n",
+  "test_output": "test_REQ_001_zero_discount_preserves_price (test_pricing.PricingRequirements.test_REQ_001_zero_discount_preserves_price) ... ok\r\ntest_REQ_002_discount_reduces_price (test_pricing.PricingRequirements.test_REQ_002_discount_reduces_price) ... ok\r\ntest_REQ_003_full_discount_and_zero_price (test_pricing.PricingRequirements.test_REQ_003_full_discount_and_zero_price) ... ok\r\ntest_REQ_004_fractional_cent_rounds_down (test_pricing.PricingRequirements.test_REQ_004_fractional_cent_rounds_down) ... ok\r\ntest_REQ_005_invalid_inputs_are_refused (test_pricing.PricingRequirements.test_REQ_005_invalid_inputs_are_refused) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 5 tests in 0.001s\r\n\r\nOK",
+  "receipt": {
+    "receipt_id": "rcpt-63fd6bf938",
+    "timestamp": "2026-10-22T11:59:18.266801+00:00",
+    "base_revision": "e606343b82f3794d1742909439a2c0947efc0f4a",
+    "patch_hash": "7fe04967b2c6cd00af6e4d5ff80dcfa51ecbdbbf1493a6be581e0bd23b6ed506",
+    "verified_revision": "e606343b82f3+7fe04967b2c6",
+    "grade": "verified_basic",
+    "outcome": "pass",
+    "merge_eligible": true,
+    "changed_files": [
+      "src/pricing.py"
+    ],
+    "checks_executed": {
+      "secret_scan": {
+        "outcome": "pass",
+        "findings": []
+      },
+      "scope_validation": {
+        "outcome": "pass",
+        "errors": [],
+        "changed_files": [
+          "src/pricing.py"
+        ]
+      },
+      "clean_checkout_apply": {
+        "outcome": "pass",
+        "base_revision": "e606343b82f3794d1742909439a2c0947efc0f4a"
+      },
+      "native_tests": {
+        "outcome": "pass",
+        "command": "python -I -B -m unittest discover -s tests -v",
+        "exit_code": 0,
+        "error": ""
+      }
+    },
+    "summary": "Verified: 1 file(s) changed, patch applied cleanly to e606343b, and tests passed."
+  },
+  "source_preserved": true,
+  "published": false,
+  "native_cli_used": false,
+  "worktree": "sample-repository/.dispatcher/worktrees/live-api-4b991627",
+  "original_evidence_sha256": "6f01722f99af7e5ae707eeefe07273947c9364bacbd8844bf00424620ab08e95",
+  "export_note": "Presentation export: local executable/home paths redacted. Not a replayable authorization receipt."
+}

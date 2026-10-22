@@ -1,0 +1,10 @@
+test_REQ_001_zero_discount_preserves_price (test_pricing.PricingRequirements.test_REQ_001_zero_discount_preserves_price) ... ok
+test_REQ_002_discount_reduces_price (test_pricing.PricingRequirements.test_REQ_002_discount_reduces_price) ... ok
+test_REQ_003_full_discount_and_zero_price (test_pricing.PricingRequirements.test_REQ_003_full_discount_and_zero_price) ... ok
+test_REQ_004_fractional_cent_rounds_down (test_pricing.PricingRequirements.test_REQ_004_fractional_cent_rounds_down) ... ok
+test_REQ_005_invalid_inputs_are_refused (test_pricing.PricingRequirements.test_REQ_005_invalid_inputs_are_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK

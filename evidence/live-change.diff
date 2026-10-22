@@ -1,0 +1,12 @@
+diff --git a/src/pricing.py b/src/pricing.py
+index f20abbf..09b05fd 100644
+--- a/src/pricing.py
++++ b/src/pricing.py
+@@ -1,2 +1,6 @@
+ def apply_discount(price_cents, percent):
+-    return price_cents * (100 + percent) // 100
++    if price_cents < 0:
++        raise ValueError("price_cents must be non-negative")
++    if percent < 0 or percent > 100:
++        raise ValueError("percent must be between 0 and 100")
++    return price_cents * (100 - percent) // 100

@@ -1,0 +1,53 @@
+{
+  "schema": 2,
+  "distribution": "evidence_only_no_application_source",
+  "application_source_included": false,
+  "application_runtime_included": false,
+  "frontend_bundles_included": false,
+  "private_git_history_included": false,
+  "live_api": {
+    "model": "deepseek-v4-flash",
+    "provider": "openai_compatible",
+    "started_at": "2026-10-22T11:59:12.513594+00:00",
+    "finished_at": "2026-10-22T11:59:19.562083+00:00",
+    "outcome": "pass",
+    "grade": "verified_basic",
+    "acceptance_tests": 5,
+    "changed_files": [
+      "src/pricing.py"
+    ]
+  },
+  "gif": {
+    "file": "screenshots/dispatcher-tour.gif",
+    "kind": "recorded_screenshot_tour",
+    "frames": 6,
+    "duration_seconds": 24,
+    "width": 1280,
+    "height": 808,
+    "disclaimer": "RECORDED EVIDENCE TOUR | Real API result. Console replay. No live VM.",
+    "live_screencast": false
+  },
+  "screenshots": 9,
+  "vm_used": false,
+  "queue_dispatch_used": false,
+  "publication_used": false,
+  "sample_code_note": "Patch/code fragments concern only the small synthetic pricing example, not Dispatcher implementation.",
+  "historical_native_proof": "Documented separately; this export does not recreate the retired Linux environment.",
+  "sha256": {
+    "screenshots/dispatcher-tour.gif": "579c76b7385ca20136e3056aac899e0b4747f019d64c2695667df071c6f85093",
+    "screenshots/01-evidence-overview.jpg": "f673a2e3d90786d8a24a8d9ad852991e9205be541f667cb7efa95301af8cdc05",
+    "screenshots/02-complete-evidence.jpg": "871b74b46e63c12c30dd9f1aa12ee6b9b595fcf25ac976b09b45fd3bc93fd272",
+    "screenshots/03-console-chat.jpg": "9c5a2175d6d99374f93f28481c66661053887c6675b19c1b2885a206ee1aa011",
+    "screenshots/04-console-jobs.jpg": "389dc9eafcf78c67f93b896d276f2ee2dccf68577c357cc605e0117fa73739de",
+    "screenshots/05-console-diff.jpg": "d54eb9755baa68fa7a7f7a34fc3e4d4e15c9619de81a8e8a31d600041c482e59",
+    "screenshots/06-console-tests.jpg": "27dfcec10375821ddd179c13464ecf43ac1b4ab04d2e9252a45fc2f61cf7756f",
+    "screenshots/07-console-context.jpg": "88d7c9be22c2746f351362057f6015524458b531de72887bc4738fa7973d4ede",
+    "screenshots/08-console-scope-refusal.jpg": "2add142f36f2cb8f124a93eaabcfcf55311f52abfccd1879e372bcb04016fd13",
+    "screenshots/09-console-requirements.jpg": "9e1f43cdb15255f1e68943b40acb44f08c9c19c6ed826adffaf35d14d40de351",
+    "evidence/agent-response.md": "3ec26c50349aa4106e727a3ef7aa4058e8cfcf2ce5232d69a3dd620881c0ee14",
+    "evidence/controls.json": "9fd8cc0477abf5369eca0189d406c893cbfb761ad7b76cdbe19c8398f50450ce",
+    "evidence/live-change.diff": "7fe04967b2c6cd00af6e4d5ff80dcfa51ecbdbbf1493a6be581e0bd23b6ed506",
+    "evidence/live-run.json": "c0e437968329af9a2709ed803827ff8e0316cde4d091a267449b7f06ca60a24a",
+    "evidence/live-tests.log": "0eab42fe418202a887eec2885200e89ac0ad96b4f4deefa1fa36feebbe3fd856"
+  }
+}
