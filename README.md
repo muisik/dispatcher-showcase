@@ -21,8 +21,8 @@
 8. [Screenshots](#screenshots)
 9. [Raw Evidence](#evidence)
 10. [Current Status And Limitations](#current-status)
-11. [Author](#author)
-12. [Türkçe Not](#turkce-not)
+11. [Türkçe Özet](#turkce-not)
+12. [Author](#author)
 
 ---
 
@@ -289,26 +289,87 @@ correctness or independently authenticated provenance.
 The project is frozen as a portfolio PoC. Further product work will be reconsidered
 when concrete user demand or a bounded pilot justifies it.
 
-<a name="author"></a>
-
-## Author
-
-Muhammet Işık
-
 ---
 
 <a name="turkce-not"></a>
 
-## Türkçe Not
+## Türkçe Özet
 
-Dispatcher, sohbetten yazılım görevine uzanan süreci; görev kapsamı, ajan seçimi,
-ayrı Git çalışma alanı ve bağımsız doğrulama kanıtıyla yöneten bir mühendislik PoC’sidir.
-Bu repo teknik vitrindir; uygulamanın kaynak kodu private kalır ve buradan kurulamaz.
+### Amaç
 
-Paylaşılan örnekte gerçek API ajanı kaynak dosyasını düzeltti; bağımsız temiz
-checkout içinde beş kabul testi geçti. Görseller kayıtlı sonuçları gösterir;
-canlı VM veya tamamlanmış SaaS gösterimi değildir. Eski native CLI denemeleri
-tarihli kanıttır; kurulu ortamın tam yürütme/doğrulama/uygulama kabulü henüz bitmedi.
+**Dispatcher, kodlama ajanları etrafında görev tanımlama, yürütme, doğrulama ve
+sonuç inceleme sürecini yöneten bir mühendislik PoC’sidir.** Kullanıcı projesini
+ve bağlam kaynağını seçer, yapmak istediği işi sohbet üzerinden anlatır ve arka
+plandaki görevleri aynı konsoldan takip eder. Çıktı; ajanın açıklamasıyla birlikte
+değişen dosyaları, gerçek Git diff’ini, test sonuçlarını ve inceleme durumunu içerir.
 
-Teknik ayrıntılar, ekranlar, ham test/diff kayıtları ve bilinen sınırlamalar
-yukarıdaki İngilizce bölümlerde açık olarak sunulur.
+Projenin odağı, “ajan işi bitirdi” bilgisini incelenebilir mühendislik kanıtına
+dönüştürmektir. Hangi kapsamın onaylandığı, hangi modelin çalıştığı, hangi
+revizyondan başlandığı ve hangi değişikliğin doğrulandığı ayrı kayıtlarda tutulur.
+
+### Çalışma Akışı
+
+1. Proje ve kaynak bağlamı seçilir; hedef, izin verilen kapsam ve kapsam dışı
+   alanlar görev sözleşmesinde belirlenir.
+2. Görevin riskine, gereken yeteneklere ve model kalite sınırına göre planlama,
+   uygulama ve gerektiğinde inceleme rolleri yönlendirilir.
+3. Kabul edilmiş deneme, sabit bir Git revizyonundan açılan ayrı çalışma alanında
+   yürütülür. Kullanıcının ana proje klasörü aday değişiklikten ayrı tutulur.
+4. Bağımsız doğrulayıcı gerçek yamayı temiz bir checkout’a uygular; kapsam,
+   hassas veri örüntüleri ve test çıktıları üzerinden kanıt üretir.
+5. Kullanıcı sonucu diff, test günlüğü ve görev kaydıyla inceler. Doğrulama,
+   değişikliğin yayımlanması ve hedef projeye uygulanması ayrı aşamalardır.
+
+### Mimari Yaklaşım
+
+FastAPI kontrol katmanı kimlik, onay, kuyruk ve kanıt kayıtlarını yönetir; Vue
+konsol proje sohbetini ve sonuçları görünür kılar. Model çağrıları merkezi bir
+gateway’den geçer. Yerleşik API ajanına ek olarak Codex, Antigravity ve OpenCode
+için ayrı yürütücü adaptörleri bulunur; her adaptörün canlı kanıt düzeyi farklıdır.
+
+Mevcut yaklaşım **kalıcı kullanıcı çalışma ortamı + deneme başına ayrı Git
+worktree + bağımsız doğrulama** düzenidir. Native ajan oturumları ve proje verisi
+çalışma ortamında kalır; kontrol katmanı imzalı görev ve sonuç kayıtlarıyla
+haberleşir. Her görev için geçici container oluşturma tasarımı ertelenmiştir.
+Git worktree sürüm kontrolü ayrımı sağlar; işletim sistemi sandbox’ı değildir.
+
+### Bu Vitrinde Gösterilen Kanıt
+
+22 Ekim 2026’da gerçek `deepseek-v4-flash` API ajanı, örnek projedeki
+`src/pricing.py` dosyasını düzeltti. Üretilen yama sabit başlangıç revizyonundan
+açılan bağımsız temiz checkout’a uygulandı ve **beş kabul testi geçti**.
+Orijinal örnek kaynak ve korunan testler değiştirilmedi.
+
+Ayrı deterministik kontrollerde doğru aday kabul edildi, hatalı hesaplama
+testlerden kaldı ve korunan test dosyasını değiştiren aday kapsam kontrolünde
+reddedildi. Bu kontroller canlı model davranışı olarak sunulmaz. Örnek API
+çalışması tenant kuyruğu, VM veya native CLI yolunu kullanmadı.
+
+[Ham kanıtlar](#evidence) bölümünde gerçek yama, test günlüğü, görev/doğrulama
+kaydı, ajan açıklaması ve SHA-256 manifesti açıkça incelenebilir. Ekran görüntüleri
+ve 24 saniyelik GIF, mevcut konsolda kayıtlı sonuçları gösterir; hesap/proje/kaynak
+bilgileri temsilidir ve çalışma ortamı çevrimdışıdır.
+
+### Mevcut Durum
+
+Dispatcher **portföy PoC’si olarak dondurulmuştur**. Bu repo teknik inceleme ve
+paylaşım içindir; uygulama kaynağı private kalır ve buradan kurulum yapılamaz.
+Önceki Linux denemelerinde oturum açılmış native ajanlarla görev, dosya ve sonuç
+aktarımı çalıştırılmıştır. Bu tarihli kanıtlar, artık mevcut olmayan WSL/Docker
+ortamına aittir; güncel bir canlı kurulum gösterimi sayılmaz.
+
+Kurulu ortamda native yürütme, bağımsız doğrulama ve tam revizyona bağlı
+yayımlama/uygulama zincirinin birlikte kabulü olan **CP1 açık kalır**. Self-service
+kayıt, otomatik VM sağlama veya üretime hazır SaaS iddiası yoktur. Yeni geliştirme,
+somut kullanıcı ihtiyacı ya da sınırları belirlenmiş bir pilotla yeniden değerlendirilir.
+
+---
+
+<a name="author"></a>
+
+## Author
+
+**Muhammet Işık**
+
+[![GitHub](https://img.shields.io/badge/GitHub-isikmuhamm-181717?style=flat-square&logo=github)](https://github.com/isikmuhamm)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin)](https://linkedin.com/in/muisik)
