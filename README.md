@@ -293,9 +293,9 @@ when concrete user demand or a bounded pilot justifies it.
 
 <a name="turkce-not"></a>
 
-## Türkçe Özet
+# Türkçe Özet
 
-### Amaç
+## Amaç
 
 **Dispatcher, kodlama ajanları etrafında görev tanımlama, yürütme, doğrulama ve
 sonuç inceleme sürecini yöneten bir mühendislik PoC’sidir.** Kullanıcı projesini
@@ -307,7 +307,7 @@ Projenin odağı, “ajan işi bitirdi” bilgisini incelenebilir mühendislik k
 dönüştürmektir. Hangi kapsamın onaylandığı, hangi modelin çalıştığı, hangi
 revizyondan başlandığı ve hangi değişikliğin doğrulandığı ayrı kayıtlarda tutulur.
 
-### Çalışma Akışı
+## Çalışma Akışı
 
 1. Proje ve kaynak bağlamı seçilir; hedef, izin verilen kapsam ve kapsam dışı
    alanlar görev sözleşmesinde belirlenir.
@@ -320,7 +320,7 @@ revizyondan başlandığı ve hangi değişikliğin doğrulandığı ayrı kayı
 5. Kullanıcı sonucu diff, test günlüğü ve görev kaydıyla inceler. Doğrulama,
    değişikliğin yayımlanması ve hedef projeye uygulanması ayrı aşamalardır.
 
-### Mimari Yaklaşım
+## Mimari Yaklaşım
 
 FastAPI kontrol katmanı kimlik, onay, kuyruk ve kanıt kayıtlarını yönetir; Vue
 konsol proje sohbetini ve sonuçları görünür kılar. Model çağrıları merkezi bir
@@ -333,7 +333,7 @@ worktree + bağımsız doğrulama** düzenidir. Native ajan oturumları ve proje
 haberleşir. Her görev için geçici container oluşturma tasarımı ertelenmiştir.
 Git worktree sürüm kontrolü ayrımı sağlar; işletim sistemi sandbox’ı değildir.
 
-### Bu Vitrinde Gösterilen Kanıt
+## Bu Vitrinde Gösterilen Kanıt
 
 22 Ekim 2026’da gerçek `deepseek-v4-flash` API ajanı, örnek projedeki
 `src/pricing.py` dosyasını düzeltti. Üretilen yama sabit başlangıç revizyonundan
@@ -350,7 +350,7 @@ kaydı, ajan açıklaması ve SHA-256 manifesti açıkça incelenebilir. Ekran g
 ve 24 saniyelik GIF, mevcut konsolda kayıtlı sonuçları gösterir; hesap/proje/kaynak
 bilgileri temsilidir ve çalışma ortamı çevrimdışıdır.
 
-### Mevcut Durum
+## Mevcut Durum
 
 Dispatcher **portföy PoC’si olarak dondurulmuştur**. Bu repo teknik inceleme ve
 paylaşım içindir; uygulama kaynağı private kalır ve buradan kurulum yapılamaz.
